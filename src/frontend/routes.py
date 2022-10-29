@@ -6,6 +6,4 @@ pages = Blueprint('pages', __name__)
 
 @pages.route('/')
 def index_page():
-    pass
-
-
+    render_template()
