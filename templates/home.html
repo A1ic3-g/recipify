@@ -1,0 +1,29 @@
+{% extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <img src="../assets/logo.svg" width="500" height="500" alt="logo">
+            
+            <!-- search box --->
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" name="query">
+                </div>
+                
+                <div class="form-group">
+                </div>
+
+            <!-- optional dropdown --->
+
+            </form>
+        </div>
+    </div>
+    
+
+{% endblock %}

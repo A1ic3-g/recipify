@@ -16,5 +16,6 @@ def recipe():
                     spotifyLink="",
                     imageFileLink="",
                     recipeLink="",
-
     )
+
+    
