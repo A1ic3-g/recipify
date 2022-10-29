@@ -1,21 +1,20 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-#from ../backend import 
 
 pages = Blueprint('pages', __name__)
 
 
 @pages.route('/')
 def index_page():
-    pass
+    return render_template("home.html")
+
 
 @pages.route('/recipe')
 def recipe(): 
-    render_template('../tempalates/recipe.html', recipeName="",
+    return render_template('recipe.html', recipeName="",
                     cusineType="", 
                     dishType="",
                     spotifyLink="",
                     imageFileLink="",
                     recipeLink="",
     )
-
     
