@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from frontend import routes
 
-app = Flask(__name__, template_folder="../templates")
+app = Flask("src")
 Bootstrap(app)
 
 """
