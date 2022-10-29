@@ -1,2 +1,3 @@
-# friendify
-Connect with friends with spotify 
+# Recipefy
+
+Find music to go with your recipe.
