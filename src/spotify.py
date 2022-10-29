@@ -71,3 +71,8 @@ def playlists(query: str, limit: int = 1) -> List[Dict]:
     :return: A list of playlists matching the specified query.
     """
     return spotify.search(q=query, type="playlist", limit=limit)["playlists"]["items"]
+
+def get_best_playlist(recommendations:List[Dict]) -> Dict:
+    """Returns the best playlist out of a list of recommendations"""
+
+    return recommendations[0]
