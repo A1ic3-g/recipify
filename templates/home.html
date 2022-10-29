@@ -5,10 +5,10 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container justify-content-center">
     <div class="row">
         <div class="col-sm">
-            <img src="../assets/logo.svg" width="500" height="500" alt="logo">
+            <img src="{{ url_for('static', filename='logo.svg') }}" width="500" height="500" alt="logo" align="middle" />
             
             <!-- search box --->
             <form>

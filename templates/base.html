@@ -5,7 +5,7 @@
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
     <a class="navbar-brand" href="/">
-        <img src="../assets/logo.svg" height="150" width="150" alt="logo">
+        <img src="{{ url_for('static', 'logo.svg') }}" alt="" height="150" width="150" alt="logo">
     </a>
         
     <ul class="navbar-nav mr-auto">
