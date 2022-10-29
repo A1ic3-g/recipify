@@ -71,11 +71,3 @@ def playlists(query: str, limit: int = 1) -> List[Dict]:
     :return: A list of playlists matching the specified query.
     """
     return spotify.search(q=query, type="playlist", limit=limit)["playlists"]["items"]
-
-
-print(recommend({
-    "cuisines": ["caribbean"],
-    "healthLabels": ["alcohol-cocktail"],
-    "mealType": [],
-    "dishType": [],
-}))
