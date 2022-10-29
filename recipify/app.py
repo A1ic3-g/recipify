@@ -1,17 +1,15 @@
 
 from flask import Flask, render_template, url_for
 from flask_bootstrap import Bootstrap
-from frontend import routes
 
-app = Flask(__name__, root_path="..")
+app = Flask(__name__)
 Bootstrap(app)
 
-"""
+
 @app.route('/')
-def home():
-    return render_template('test.html')
-"""
+def index_page():
+    return render_template("home.html")
+
 if __name__ == '__main__':
-    app.register_blueprint(routes.pages)
     
     app.run()
