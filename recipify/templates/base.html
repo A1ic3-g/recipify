@@ -2,6 +2,14 @@
 
 {% block html_attribs %} lang="en" {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap-theme.css') }}">
+{% endblock %}
+
+
+
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
     <a class="navbar-brand" href="/">
@@ -11,8 +19,7 @@
     <ul class="navbar-nav mr-auto">
         <li class="nav-item" href="/">Home</a>
     </ul>
-
-    // stuff for the search box
+    
 </div>
 {% endblock %}
 
