@@ -25,7 +25,7 @@ def get_recipes(query:str, health:str=None, mealType:str=None, time:int=None) ->
         url += "&mealType=" + mealType
     if time != None:
         url += "&time=" + str(time)
-    url += "&field=label&field=image&&field=healthLabels&field=url&field=calories&&field=totalTime&field=cuisineType&field=mealType&field=dishType"
+    url += "&field=label&field=image&field=url&field=calories&field=totalTime&field=cuisineType&field=mealType&field=dishType"
 
     # Query the API
     response = requests.get(url).json()['hits']
@@ -36,13 +36,12 @@ def get_recipes(query:str, health:str=None, mealType:str=None, time:int=None) ->
         temp = {}
         temp['label'] = recipe['recipe']['label']
         temp['image'] = recipe['recipe']['image']
-        temp['healthLabels'] = recipe['recipe']['healthLabels']
         temp['url'] = recipe['recipe']['url']
         temp['calories'] = int(recipe['recipe']['calories'])
-        temp['time'] = int(recipe['recipe']['totalTime'])
-        temp['cuisines'] = recipe['recipe']['cuisineType']
-        temp['mealTypes'] = recipe['recipe']['mealType']
-        temp['dishTypes'] = recipe['recipe']['dishType']
+        temp['totalTime'] = int(recipe['recipe']['totalTime'])
+        temp['cuisineType'] = recipe['recipe']['cuisineType']
+        temp['mealType'] = recipe['recipe']['mealType']
+        temp['dishType'] = recipe['recipe']['dishType']
         output.append(temp)
 
     return json.dumps(output) # Wrap the array in a JSON object
