@@ -8,4 +8,13 @@ pages = Blueprint('pages', __name__)
 def index_page():
     pass
 
+@pages.route('/recipe')
+def recipe(): 
+    render_template('../tempalates/recipe.html', recipeName="",
+                    cusineType="", 
+                    dishType="",
+                    spotifyLink="",
+                    imageFileLink="",
+                    recipeLink="",
 
+    )
