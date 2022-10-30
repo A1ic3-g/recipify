@@ -57,8 +57,8 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     # Special cases
 
     # Return only pirate metal playlists for alcoholic caribbean drinks
-    if ("alcohol-cocktail" in recipe["healths"]) and ("caribbean" in cuisines):
-        recommendations = random.choice(playlists(query="yo ho ho and a bottle of rum", limit=50))
+    if ("alcohol" in recipe["healths"]) and ("caribbean" in cuisines):
+        recommendations = playlists(query="yo ho ho and a bottle of rum", limit=50)
 
     return recommendations
 
