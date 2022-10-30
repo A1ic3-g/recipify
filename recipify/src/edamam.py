@@ -43,7 +43,7 @@ def get_recipes(query:str, health:List[str]=None, mealType:List[str]=None) -> js
         temp['image'] = recipe['recipe']['image']
         temp['url'] = recipe['recipe']['url']
         temp['cuisineType'] = recipe['recipe']['cuisineType']
-        temp['mealType'] = recipe['recipe']['mealType']
+        temp['mealType'] = [meal.replace("/", ",") for meal in recipe['recipe']['mealType']]
         output.append(temp)
 
     return json.dumps(output) # Wrap the array in a JSON object

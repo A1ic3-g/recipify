@@ -19,6 +19,7 @@ spotify: Spotify = Spotify(
     ),
 )
 
+
 def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     """
     Recommend playlists from Spotify based on a recipe.
@@ -39,24 +40,23 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
             fuzzy: List[fuzzysearch.Match] = fuzzysearch.find_near_matches(subsequence=genre, sequence=cuisine, max_l_dist=1)
             match fuzzy:
                 case [_]:
-                    recommendations.extend(playlists(query=genre))
+                    recommendations.extend(playlists(query=genre, limit=1))
 
     # Retrieve playlists matching main meal type
     meals: List[str] = recipe["mealType"]
     match meals:
         case [meal]:
-            recommendations.extend(playlists(query=meal))
+            recommendations.extend(playlists(query=meal, limit=1))
 
     # If there are no playlists from the genre matching, find playlists based on searching the cuisineType and the mealType
-    if recommendations == []:
-        recommendations.extend(playlists(query=recipe['label'], limit=3))
-        recommendations.extend(playlists(query=recipe['cuisineType'], limit=5))
-        recommendations.extend(playlists(query=recipe['cuisineType'] + " " + recipe['mealType'], limit=3))
+    if not recommendations:
+        recommendations.extend(playlists(query=recipe['label'], limit=1))
+        recommendations.extend(playlists(query="food", limit=1))
 
     return recommendations
 
 
-def playlists(query: str, limit: str) -> List[Dict]:
+def playlists(query: str, limit: int) -> List[Dict]:
     """
     Retrieve playlists from Spotify based on a query string.
 
