@@ -2,33 +2,27 @@
 
 {% block content %}
 <head>
-    <title>{{ recipeName }}</title>
-  </head>
-
+    <title>{{ recipe_name }}</title>
+</head>
 <div class="container"> 
     <div class="row"> <!-- First Row-->
         <div class="col-sm">
-            {{ cusineType }}
+            {{ recipe_cuisines }}
         </div>
         <div class="col-sm">
-            {{ dishType }}
+            {{ recipe_dishes }}
         </div>
         <div class="col-sm">
-            <iframe src="{{ spotifyLink }}">
-              
-            </iframe>  
+            <iframe src="https://open.spotify.com/embed/playlist/{{ spotify_link }}"></iframe>
         </div>
       </div>
     <div class="row"> <!-- Second Row-->
-      <div class="col-sm">
-        <img src="{{ imageFileLink }}" alt="Recipe Image">
-      </div>
-      <div class="col-sm">
-        <iframe src="{{ recipeLink }}">
-            
-        </iframe>  
-      </div>
-
+        <div class="col-sm">
+            <img src="{{ image_link }}" alt="Recipe Image">
+        </div>
+        <div class="col-sm">
+            <iframe src="{{ recipe_link }}"></iframe>
+        </div>
     </div>
   </div>
-  {% endblock}
+{% endblock %}
