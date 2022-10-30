@@ -48,11 +48,6 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
         case [meal]:
             recommendations.extend(playlists(query=meal))
 
-    # Retrieve playlists matching dish types
-    dishes: List[str] = recipe["dishes"]
-    for dish in dishes:
-        recommendations.extend(playlists(query=dish))
-
     # Special cases
 
     # Return only pirate metal playlists for alcoholic caribbean drinks

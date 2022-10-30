@@ -8,49 +8,74 @@ import random
 app = Flask(__name__)
 Bootstrap(app)
 
+@app.route('/')
+def index_page():
+    return render_template("home.html")
 
-@app.route('/', methods=['POST'])
-def index_post():
-    query = json.loads(get_recipes(request.form['query']))
+@app.route('/results', methods=['POST'])
+def results_page():
+    health = []
+
+    # Add health requirements to health
+    if 'vegan' in request.form:
+        health.append('vegan')
+    if 'vegatarian' in request.form:
+        health.append('vegatarian')
+    if 'wheat-free' in request.form:
+        health.append('wheat-free')
+    if 'gluten-free' in request.form:
+        health.append('gluten-free')
+    if 'dairy-free' in request.form:
+        health.append('dairy-free')
+    if 'kosher' in request.form:
+        health.append('kosher')
+
+    mealType = []
+
+    # Add meal requirements to mealType
+    if 'Breakfast' in request.form:
+        mealType.append('Breakfast')
+    if 'Lunch' in request.form:
+        mealType.append('Lunch')
+    if 'Dinner' in request.form:
+        mealType.append('Dinner')
+
+
+    # Query the recipes API for recipes that fufill the requirements
+    query = json.loads(get_recipes(request.form['query'], health, mealType))
+
     #return "<h1>{0}</h1>".format(query)
     #return render_template("results.html", image=query[0]['image'], url=query[0]['url'],
     #    label=query[0]['label'], mealType=query[0]['mealType'][0], cuisineType=query[0]['cuisineType'][0],
     #    calories=query[0]['calories'])
 
-    elements = ""
+    elements = "" # Stores the recipe elements
 
+    # For each returned recipe generate an element
     for i in range(0,len(query)):
         elements += '''<div class="container justify-content-center d-flex" style="padding: 3%">
-        <div class="card border-primary mb-3" style="width: 75%;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm">
-                        <img src="{image}" width="100%" height="100%" alt="{label}" style="border-radius: 50%;"/>
-                    </div>
-                    <div class="col-sm">
-                        <div class="coll card text-white bg-primary mb-3" style="height: 100%">
-                            <div class="card-header"><h1 style="font-size: 5em">{label}</h1></div>
-                                <div class="card-body">
-                                    <h4 class="card-title" style="font-size: 4em">meal: {mealType}</h4>
-                                    <h4 class="card-title" style="font-size: 4em">cuisine: {cuisineType}</h4>
-                                    <h4 class="card-title" style="font-size: 4em">calories: {calories}</h4>
+            <div class="card border-primary mb-3" style="width: 75%;">
+                <a href="/test"><div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <img src="{image}" width="100%" height="100%" alt="{label}" style="border-radius: 50%;"/>
+                        </div>
+                        <div class="col-sm">
+                            <div class="coll card text-white bg-primary mb-3" style="height: 100%">
+                                <div class="card-header"><h1 style="font-size: 5em">{label}</h1></div>
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="font-size: 4em">meal: {mealType}</h4>
+                                        <h4 class="card-title" style="font-size: 4em">cuisine: {cuisineType}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div></a>
             </div>
-        </div>
-    </div>'''.format(image=query[i]['image'], url=query[i]['url'], label=query[i]['label'], mealType=query[i]['mealType'][0],
-        cuisineType=query[i]['cuisineType'][0], calories=query[i]['calories'])
+        </div> '''.format(image=query[i]['image'], url=query[i]['url'], label=query[i]['label'], mealType=query[i]['mealType'][0],
+            cuisineType=query[i]['cuisineType'][0]) # Add the correct details in the correct location
 
-    return render_template("results.html", elements=elements)
-
-
-@app.route('/')
-def index_page():
-    return render_template("home.html")
-
+    return render_template("results.html", elements=elements) # Render all the elements
 
 @app.route("/recipe")
 def recipe_page():
@@ -81,7 +106,6 @@ def recipe_page():
         recipe_link=request.args.get("recipe-link"),
         image_link=request.args.get("image-link"),
     )
-
 
 if __name__ == '__main__':
     app.run(debug=True)
