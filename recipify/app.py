@@ -21,19 +21,19 @@ def index_post():
 
     for i in range(0,len(query)):
         elements += '''<div class="container justify-content-center d-flex" style="padding: 3%">
-        <div class="card border-primary mb-3" style="max-width: 75%;">
+        <div class="card border-primary mb-3" style="width: 75%;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm">
                         <img src="{image}" width="100%" height="100%" alt="{label}" style="border-radius: 50%;"/>
                     </div>
                     <div class="col-sm">
-                        <div class="coll card text-white bg-primary mb-3" style="width: 100%; height: 100%;">
+                        <div class="coll card text-white bg-primary mb-3" style="height: 100%">
                             <div class="card-header"><h1 style="font-size: 5em">{label}</h1></div>
                                 <div class="card-body">
-                                    <h4 class="card-title" style="font-size: 4em">Meal: {mealType}</h4>
-                                    <h4 class="card-title" style="font-size: 4em">Cuisine: {cuisineType}</h4>
-                                    <h4 class="card-title" style="font-size: 4em">Calories: {calories}</h4>
+                                    <h4 class="card-title" style="font-size: 4em">meal: {mealType}</h4>
+                                    <h4 class="card-title" style="font-size: 4em">cuisine: {cuisineType}</h4>
+                                    <h4 class="card-title" style="font-size: 4em">calories: {calories}</h4>
                                 </div>
                             </div>
                         </div>
