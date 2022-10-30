@@ -47,6 +47,10 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
         case [meal]:
             recommendations.extend(playlists(query=meal))
 
+    if recommendations == []:
+        recommendations.extend(playlists(query=recipe['cuisineType']))
+        recommendations.extend(playlists(query=recipe['mealType']))
+
     return recommendations
 
 
