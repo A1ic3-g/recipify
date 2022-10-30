@@ -51,6 +51,11 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     # If there are no playlists from the genre matching, find playlists based on searching the cuisineType and the mealType
     if not recommendations:
         recommendations.extend(playlists(query=recipe['label'], limit=1))
+        recommendations.extend(playlists(query=recipe['cuisineType'], limit=1))
+        recommendations.extend(playlists(query=recipe['cuisineType'] + recipe['mealType'], limit=1))
+        recommendations.extend(playlists(query=recipe['mealType'], limit=1))
+    
+    if not recommendations:
         recommendations.extend(playlists(query="food", limit=1))
 
     return recommendations
