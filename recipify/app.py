@@ -97,8 +97,7 @@ def recipe_page():
 
     return render_template(
         "recipe.html",
-        spotify_link=playlists[0]['id'], # The best playlist
-        #spotify_link="38u384bGcqsSEWtub2XbEF",
+        spotify_link=random.choice(playlists)['id'],
         recipe_link=url,
         label=label
     )
