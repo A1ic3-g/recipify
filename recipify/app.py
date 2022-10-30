@@ -27,11 +27,12 @@ def recipe_page():
     cuisines = request.args.get("cuisines").split(',')
     dishes = request.args.get("dishes").split(',')
     meals = request.args.get("meals").split(',')
+    healths = request.args.get("healths").split(',')
     recipe = {
         "cuisines": cuisines,
         "meals": meals,
         "dishes": dishes,
-        "healths": [],
+        "healths": healths,
     }
 
     # Retrieve Spotify recommendations for recipe
