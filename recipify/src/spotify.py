@@ -47,14 +47,16 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
         case [meal]:
             recommendations.extend(playlists(query=meal))
 
+    # If there are no playlists from the genre matching, find playlists based on searching the cuisineType and the mealType
     if recommendations == []:
-        recommendations.extend(playlists(query=recipe['cuisineType']))
-        recommendations.extend(playlists(query=recipe['mealType']))
+        recommendations.extend(playlists(query=recipe['label'], limit=3))
+        recommendations.extend(playlists(query=recipe['cuisineType'], limit=5))
+        recommendations.extend(playlists(query=recipe['cuisineType'] + " " + recipe['mealType'], limit=3))
 
     return recommendations
 
 
-def playlists(query: str, limit: int = 1) -> List[Dict]:
+def playlists(query: str, limit: str) -> List[Dict]:
     """
     Retrieve playlists from Spotify based on a query string.
 

@@ -93,6 +93,7 @@ def recipe_page():
 
     # Retrieve Spotify recommendations for recipe
     playlists = spotify.recommend(recipe)
+    print(len(playlists))
     print(playlists)
 
     return render_template(
