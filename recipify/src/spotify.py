@@ -1,7 +1,6 @@
 import dotenv
 import fuzzysearch
 import os
-import random
 from spotipy import *
 
 from typing import *
