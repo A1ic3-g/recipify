@@ -50,8 +50,8 @@ def recipe_page():
         recipe_cuisines=cuisines,
         recipe_dishes=dishes,
         spotify_link=random.choice(playlists)["id"],
-        recipe_link="",
-        image_link="",
+        recipe_link=request.args.get("recipe-link"),
+        image_link=request.args.get("image-link"),
     )
 
 
