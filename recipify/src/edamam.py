@@ -18,7 +18,7 @@ def get_recipes(query:str, health:str=None, mealType:str=None, time:int=None) ->
     """
 
     # Build the query URL
-    url = "https://api.edamam.com/api/recipes/v2?type=public&app_id={0}&app_key=%20{1}%09&q={2}".format(os.environ.get("edamam_id"), os.environ.get("edamam_key"), query)
+    url = "https://api.edamam.com/api/recipes/v2?type=public&app_id={0}&app_key=%20{1}%09&q={2}".format(os.environ.get("EDAMAM_ID"), os.environ.get("EDAMAM_KEY"), query)
     if health != None: 
         url += "&health=" + health
     if mealType != None:

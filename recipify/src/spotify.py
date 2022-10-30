@@ -1,7 +1,6 @@
 import dotenv
 import fuzzysearch
 import os
-import random
 from spotipy import *
 
 from typing import *
@@ -44,20 +43,21 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
                     recommendations.extend(playlists(query=genre))
 
     # Retrieve playlists matching main meal type
-    meals: List[str] = recipe["mealType"]
+    meals: List[str] = recipe["meals"]
     match meals:
         case [meal]:
             recommendations.extend(playlists(query=meal))
 
     # Retrieve playlists matching dish types
-    dishes: List[str] = recipe["dishType"]
-    recommendations.extend([playlists(query=dish) for dish in dishes])
+    dishes: List[str] = recipe["dishes"]
+    for dish in dishes:
+        recommendations.extend(playlists(query=dish))
 
     # Special cases
 
     # Return only pirate metal playlists for alcoholic caribbean drinks
-    if ("alcohol-cocktail" in recipe["healthLabels"]) and ("caribbean" in cuisines):
-        recommendations = random.choice(playlists(query="yo ho ho and a bottle of rum", limit=50))
+    if ("alcohol" in recipe["healths"]) and ("caribbean" in cuisines):
+        recommendations = playlists(query="yo ho ho and a bottle of rum", limit=50)
 
     return recommendations
 
@@ -71,6 +71,7 @@ def playlists(query: str, limit: int = 1) -> List[Dict]:
     :return: A list of playlists matching the specified query.
     """
     return spotify.search(q=query, type="playlist", limit=limit)["playlists"]["items"]
+
 
 def get_best_playlist(recommendations:List[Dict]) -> Dict:
     """Returns the best playlist out of a list of recommendations"""
