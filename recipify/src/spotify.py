@@ -1,8 +1,8 @@
 import dotenv
 import fuzzysearch
 import os
+import random
 from spotipy import *
-
 from typing import *
 
 dotenv.load_dotenv()
@@ -48,13 +48,13 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
         case [meal]:
             recommendations.extend(playlists(query=meal, limit=1))
 
-    # If there are no playlists from the genre matching, find playlists based on searching the cuisineType and the mealType
+    # If there are no playlists from the genre matching, find playlists based on searching the cuisine and the meal type
     if not recommendations:
         recommendations.extend(playlists(query=recipe['label'], limit=1))
-        recommendations.extend(playlists(query=recipe['cuisineType'], limit=1))
-        recommendations.extend(playlists(query=recipe['cuisineType'] + recipe['mealType'], limit=1))
+        recommendations.extend(playlists(query=random.choice(cuisines), limit=1))
         recommendations.extend(playlists(query=recipe['mealType'], limit=1))
-    
+
+    # Generic food playlist if absolutely nothing was found
     if not recommendations:
         recommendations.extend(playlists(query="food", limit=1))
 
