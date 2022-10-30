@@ -13,23 +13,20 @@
 
 <div class="container justify-content-center d-flex">
     <div class="row">
-        
-        <form method="POST" action="{{ url_for('index_post') }}">
-        <div class="col-md">
-            <br>
-            <br>
-            <img src="{{ url_for('static', filename='logo.svg') }}" width="100%" height="100%" alt="logo"/>
-            
-            <!-- search box --->
-            
+        <form method="POST" action="{{ url_for('results_page') }}">
+            <div class="col-md">
+                <br>
+                <br>
+                <img src="{{ url_for('static', filename='logo.svg') }}" width="100%" height="100%" alt="logo"/>
+
+                <!-- Search box -->
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" name="query">
                 </div>
 
-            <!-- optional dropdown --->
-        </div>      
-                
-        <div class="col-md">
+            </div>      
+            <!-- Dietary and Meal requirements -->
+            <div class="col-md">
                 <div class="card card-body">
                     <div class="container">
                         <div class="row">
@@ -37,47 +34,42 @@
                                 <h3>Dietary requirements</h3>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="vegan">
                                     <label class="form-check-label" for="defaultCheck1">Vegan</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="vegetarian">
                                     <label class="form-check-label" for="defaultCheck1">Vegetarian</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="wheat-free">
                                     <label class="form-check-label" for="defaultCheck1">Wheat Free</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="gluten-free">
                                     <label class="form-check-label" for="defaultCheck1">Gluten Free</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="dairy-free">
                                     <label class="form-check-label" for="defaultCheck1">Dairy Free</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="kosher">
                                     <label class="form-check-label" for="defaultCheck1">Kosher</label>
                                 </div>
                             </div>
-
                             <div class="col-sm">
                                 <h3>Meal Type</h3>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">Kosher</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="Breakfast">
                                     <label class="form-check-label" for="defaultCheck1">Breakfast</label>                       
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="Lunch">
                                     <label class="form-check-label" for="defaultCheck1">Lunch</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="Dinner">
                                     <label class="form-check-label" for="defaultCheck1">Dinner</label>
                                 </div>
                             </div>
@@ -87,16 +79,11 @@
                                 <!-- do time slider here -->
                             </div>
                         </div>
-                        </div>
                     </div>
-                </div> 
+                </div>
             </div>
-        </div>
-                
-                
-
-            </form>
-        
+        </form>
+    </div>
+ </div       
     
-
 {% endblock %}

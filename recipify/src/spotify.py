@@ -19,7 +19,6 @@ spotify: Spotify = Spotify(
     ),
 )
 
-
 def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     """
     Recommend playlists from Spotify based on a recipe.
@@ -34,7 +33,7 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     recommendations = []
 
     # Retrieve playlists matching genres
-    cuisines: List[str] = recipe["cuisines"]
+    cuisines: List[str] = recipe["cuisineType"]
     for cuisine in cuisines:
         for genre in genres:
             fuzzy: List[fuzzysearch.Match] = fuzzysearch.find_near_matches(subsequence=genre, sequence=cuisine, max_l_dist=1)
@@ -43,21 +42,10 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
                     recommendations.extend(playlists(query=genre))
 
     # Retrieve playlists matching main meal type
-    meals: List[str] = recipe["meals"]
+    meals: List[str] = recipe["mealType"]
     match meals:
         case [meal]:
             recommendations.extend(playlists(query=meal))
-
-    # Retrieve playlists matching dish types
-    dishes: List[str] = recipe["dishes"]
-    for dish in dishes:
-        recommendations.extend(playlists(query=dish))
-
-    # Special cases
-
-    # Return only pirate metal playlists for alcoholic caribbean drinks
-    if ("alcohol" in recipe["healths"]) and ("caribbean" in cuisines):
-        recommendations = playlists(query="yo ho ho and a bottle of rum", limit=50)
 
     return recommendations
 
