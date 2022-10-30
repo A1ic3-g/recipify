@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 
+{% block html_attribs %} lang="en" {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='bootstrap-theme.css')}}">
+{% endblock %}
+
 {% block content %}
+
 <head>
-    <title>{{ recipe_name }}</title>
+    <title>{{ label }}</title>
 </head>
-<div class="container"> 
-    <div class="row"> <!-- First Row-->
-        <div class="col-sm">
-            {{ recipe_cuisines }}
-        </div>
-        <div class="col-sm">
-            {{ recipe_dishes }}
-        </div>
-        <div class="col-sm">
-            <iframe src="https://open.spotify.com/embed/playlist/{{ spotify_link }}"></iframe>
-        </div>
-      </div>
-    <div class="row"> <!-- Second Row-->
-        <div class="col-sm">
-            <img src="{{ image_link }}" alt="Recipe Image">
-        </div>
-        <div class="col-sm">
-            <iframe src="{{ recipe_link }}"></iframe>
+<body>
+    <div class="container justify-content-center d-flex" style="padding: 3%">
+        <div class="card border-primary mb-3" style="width: 100%;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm">
+                        <iframe width="100%" height="1000%" src="https://open.spotify.com/embed/playlist/{{ spotify_link }}"></iframe>
+                    </div>
+                    <div class="col-sm">
+                        <iframe width="100%" height="1000%" src="{{ recipe_link }}"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-  </div>
+</body>
+
 {% endblock %}

@@ -1,9 +1,9 @@
+import json
+import random
+import src.spotify as spotify
 from flask import Flask, render_template, request, url_for
 from flask_bootstrap import Bootstrap
 from src.edamam import get_recipes
-import json
-import src.spotify as spotify
-import random
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -55,7 +55,7 @@ def results_page():
     for i in range(0,len(query)):
         elements += '''<div class="container justify-content-center d-flex" style="padding: 3%">
             <div class="card border-primary mb-3" style="width: 75%;">
-                <a href="/test"><div class="card-body">
+                <a href="/recipe?label={label}&url={url}&cuisineType={cuisineType}&mealType={mealType}"><div class="card-body">
                     <div class="row">
                         <div class="col-sm">
                             <img src="{image}" width="100%" height="100%" alt="{label}" style="border-radius: 50%;"/>
@@ -72,39 +72,34 @@ def results_page():
                     </div>
                 </div></a>
             </div>
-        </div> '''.format(image=query[i]['image'], url=query[i]['url'], label=query[i]['label'], mealType=query[i]['mealType'][0],
-            cuisineType=query[i]['cuisineType'][0]) # Add the correct details in the correct location
+        </div> '''.format(url=query[i]['url'], cuisineType=query[i]['cuisineType'][0],
+            mealType=query[i]['mealType'][0], image=query[i]['image'], label=query[i]['label'])  # Add the correct details in the correct location
 
     return render_template("results.html", elements=elements) # Render all the elements
 
 @app.route("/recipe")
 def recipe_page():
-    # Retrieve recipe from URL
-    name = request.args.get("name")
-    cuisines = request.args.get("cuisines").split(',')
-    dishes = request.args.get("dishes").split(',')
-    meals = request.args.get("meals").split(',')
-    healths = request.args.get("healths").split(',')
+    # Retrieve recipe from URL and place in recipe dictionary
+    label=request.args.get("label")
+    url = request.args.get("url")
+    cuisineType = request.args.get("cuisineType")
+    mealType = request.args.get("mealType")
     recipe = {
-        "cuisines": cuisines,
-        "meals": meals,
-        "dishes": dishes,
-        "healths": healths,
+        "label":label,
+        "url":url,
+        "cuisineType": cuisineType,
+        "mealType": mealType
     }
 
     # Retrieve Spotify recommendations for recipe
     playlists = spotify.recommend(recipe)
     print(playlists)
 
-    # Render template
     return render_template(
         "recipe.html",
-        recipe_name=name,
-        recipe_cuisines=cuisines,
-        recipe_dishes=dishes,
-        spotify_link=random.choice(playlists)["id"],
-        recipe_link=request.args.get("recipe-link"),
-        image_link=request.args.get("image-link"),
+        #spotify_link=playlists[0], # The best playlist
+        spotify_link="38u384bGcqsSEWtub2XbEF",
+        recipe_link=url
     )
 
 if __name__ == '__main__':
