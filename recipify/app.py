@@ -12,11 +12,39 @@ Bootstrap(app)
 @app.route('/', methods=['POST'])
 def index_post():
     query = json.loads(get_recipes(request.form['query']))
-    print("Len: " + str(len(query)))
     #return "<h1>{0}</h1>".format(query)
-    return render_template("results.html", image=query[0]['image'], url=query[0]['url'],
-        label=query[0]['label'], mealType=query[0]['mealType'][0], cuisine=query[0]['cuisineType'][0],
-        calories=query[0]['calories'])
+    #return render_template("results.html", image=query[0]['image'], url=query[0]['url'],
+    #    label=query[0]['label'], mealType=query[0]['mealType'][0], cuisineType=query[0]['cuisineType'][0],
+    #    calories=query[0]['calories'])
+
+    elements = ""
+
+    for i in range(0,len(query)):
+        elements += '''<div class="container justify-content-center d-flex" style="padding: 3%">
+        <div class="card border-primary mb-3" style="max-width: 75%;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="{image}" width="100%" height="100%" alt="{label}" style="border-radius: 50%;"/>
+                    </div>
+                    <div class="col-sm">
+                        <div class="coll card text-white bg-primary mb-3" style="width: 100%; height: 100%;">
+                            <div class="card-header"><h1 style="font-size: 5em">{label}</h1></div>
+                                <div class="card-body">
+                                    <h4 class="card-title" style="font-size: 4em">Meal: {mealType}</h4>
+                                    <h4 class="card-title" style="font-size: 4em">Cuisine: {cuisineType}</h4>
+                                    <h4 class="card-title" style="font-size: 4em">Calories: {calories}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>'''.format(image=query[i]['image'], url=query[i]['url'], label=query[i]['label'], mealType=query[i]['mealType'][0],
+        cuisineType=query[i]['cuisineType'][0], calories=query[i]['calories'])
+
+    return render_template("results.html", elements=elements)
 
 
 @app.route('/')

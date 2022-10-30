@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 
 {% block html_attribs %} lang="en" {% endblock %}
 
@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<div class="container justify-content-center d-flex" style="padding: 3%">
+<!-- div class="container justify-content-center d-flex" style="padding: 3%">
     <div class="card border-primary mb-3" style="max-width: 75%;">
         <div class="card-body">
             <div class="row">
@@ -22,7 +22,7 @@
                         <div class="card-header"><h1 style="font-size: 5em">{{ label }}</h1></div>
                             <div class="card-body">
                                 <h4 class="card-title" style="font-size: 4em">Meal: {{ mealType }}</h4>
-                                <h4 class="card-title" style="font-size: 4em">Cuisine: {{ cuisine }}</h4>
+                                <h4 class="card-title" style="font-size: 4em">Cuisine: {{ cuisineType }}</h4>
                                 <h4 class="card-title" style="font-size: 4em">Calories: {{ calories }}</h4>
                             </div>
                         </div>
@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
-</div> 
+</div --> 
+
+{{ elements|safe }}
 
 {% endblock %}
