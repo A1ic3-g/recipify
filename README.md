@@ -17,7 +17,7 @@ Set the following environment variables:
 
 - `EDAMAM_ID`
 - `EDAMAM_KEY`
-- `SPOTIFY_CLIENT_KEY`
-- `SPOTIFY_SECRET_KEY`
+- `SPOTIFY_CLIENT`
+- `SPOTIFY_SECRET`
 
 This can be done easily using docker compose.
