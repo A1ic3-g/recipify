@@ -4,8 +4,4 @@ services:
     restart: unless-stopped
     ports:
       - "8891:8080"
-    environment:
-      - EDAMAM_ID: 123
-      - EDAMAM_KEY: 123
-      - SPOTIFY_CLIENT: 123
-      - SPOTIFY_SECRET: 123
+    env_file: ".env"

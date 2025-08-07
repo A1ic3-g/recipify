@@ -6,10 +6,13 @@ from flask_bootstrap import Bootstrap
 from src.edamam import get_recipes
 
 app = Flask(__name__)
+app.logger.setLevel("INFO")
 Bootstrap(app)
 
 @app.route('/')
 def index_page():
+    app.logger.info("Rendering home page")
+    print("Rendering home page")
     return render_template("home.html")
 
 @app.route('/results', methods=['POST'])
@@ -93,7 +96,7 @@ def recipe_page():
     # Retrieve Spotify recommendations for recipe
     playlists = spotify.recommend(recipe)
     print(recipe)
-
+    print(playlists)
     return render_template(
         "recipe.html",
         spotify_link=random.choice(playlists)['id'],

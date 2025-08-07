@@ -3,9 +3,11 @@ import fuzzysearch
 import os
 import random
 from typing import *
+import itertools
 import base64
 import requests
 from datetime import datetime, timedelta
+from flask import current_app
 
 dotenv.load_dotenv()
 
@@ -13,6 +15,8 @@ dotenv.load_dotenv()
 SPOTIFY_CLIENT_KEY: str = "SPOTIFY_CLIENT"
 SPOTIFY_SECRET_KEY: str = "SPOTIFY_SECRET"
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
+
+_genre_seeds = []
 
 _token_cache = {
     'access_token': None,
@@ -24,8 +28,7 @@ def get_access_token():
         return _token_cache['access_token']
 
     print("Fetching new Spotify access token...")
-
-    client_creds = f"{SPOTIFY_CLIENT_KEY}:{SPOTIFY_SECRET_KEY}"
+    client_creds = f"{os.environ.get(SPOTIFY_CLIENT_KEY)}:{os.environ.get(SPOTIFY_SECRET_KEY)}"
     base64_encoded_creds = base64.b64encode(client_creds.encode()).decode()
 
     headers = {
@@ -38,6 +41,8 @@ def get_access_token():
 
     try:
         response = requests.post(TOKEN_URL, headers=headers, data=data)
+        if response.status_code != 200:
+            current_app.logger.error(f"Failed to fetch access token: {response.status_code} - {response.text}")
         response.raise_for_status()
         
         token_data = response.json()
@@ -55,10 +60,10 @@ def get_access_token():
         return access_token
 
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching access token: {e}")
+        current_app.logger.error(f"Error fetching access token: {e}")
         return None
     except ValueError as e:
-        print(f"Error: {e}")
+        current_app.logger.error(f"Error: {e}")
         return None
 
 def get_recommendation_genres() -> List[str]:
@@ -67,10 +72,11 @@ def get_recommendation_genres() -> List[str]:
 
     :return: A list of genres.
     """
+    global _genre_seeds
     token = get_access_token()
     
     if not token:
-        print("Failed to retrieve access token. Cannot fetch genres.")
+        current_app.logger.error("Failed to retrieve access token. Cannot fetch genres.")
         return []
     
     try:
@@ -85,11 +91,16 @@ def get_recommendation_genres() -> List[str]:
         
         data = response.json()
         genres = data.get('genres', [])
+
+        if genres:
+            _genre_seeds = genres
+            current_app.logger.info(f"Retrieved {len(genres)} genres from Spotify.")
         
         return genres
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching recommendation genres: {e}")
-        return []
+        current_app.logger.error(f"Error fetching recommendation genres: {e}")
+        current_app.logger.warning(f"Returning cached genres of length {len(_genre_seeds)}")
+        return _genre_seeds
     
 def search_playlists(query: str, limit: int = 20) -> List[Dict[str, Any]]:
     """
@@ -102,11 +113,11 @@ def search_playlists(query: str, limit: int = 20) -> List[Dict[str, Any]]:
     token = get_access_token()
     
     if not token:
-        print("Failed to retrieve access token. Cannot search for playlists.")
+        current_app.logger.error("Failed to retrieve access token. Cannot search for playlists.")
         return []
         
     if not 1 <= limit <= 50:
-        print("Limit must be between 1 and 50.")
+        current_app.logger.error("Limit must be between 1 and 50.")
         return []
 
     url = "https://api.spotify.com/v1/search"
@@ -128,7 +139,7 @@ def search_playlists(query: str, limit: int = 20) -> List[Dict[str, Any]]:
         
         return playlists
     except requests.exceptions.RequestException as e:
-        print(f"Error searching for playlists: {e}")
+        current_app.logger.error(f"Error searching for playlists: {e}")
         return []
 
 def recommend(recipe: Dict[str, Any]) -> List[Dict]:
@@ -139,7 +150,7 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     :return: A list of playlist recommendations.
     """
 
-
+    current_app
     # List of recommendable Spotify genres
     #genres: List[str] = spotify.recommendation_genre_seeds()["genres"]
     genres = get_recommendation_genres()
@@ -157,9 +168,8 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
 
     # Retrieve playlists matching main meal type
     meals: List[str] = recipe["mealType"]
-    match meals:
-        case [meal]:
-            recommendations.extend(search_playlists(query=meal, limit=1))
+    for meal, cuisine in itertools.product(meals, cuisines):
+        recommendations.extend(search_playlists(query=f"{cuisine} {meal}", limit=2))
 
     # If there are no playlists from the genre matching, find playlists based on searching the cuisine and the meal type
     if not recommendations:
@@ -171,7 +181,7 @@ def recommend(recipe: Dict[str, Any]) -> List[Dict]:
     if not recommendations:
         recommendations.extend(search_playlists(query="food", limit=1))
 
-    return recommendations
+    return [rec for rec in recommendations if rec is not None]
 
 def get_best_playlist(recommendations:List[Dict]) -> Dict:
     """Returns the best playlist out of a list of recommendations"""
